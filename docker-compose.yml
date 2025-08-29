@@ -1,0 +1,18 @@
+version: "3.9"
+services:
+  marquez-db:
+    image: postgres:14
+    environment:
+      - POSTGRES_DB=marquez
+      - POSTGRES_USER=${MARQUEZ_DB_USER}
+      - POSTGRES_PASSWORD=${MARQUEZ_DB_PASSWORD}
+  marquez:
+    image: quay.io/marquezproject/marquez:latest
+    environment:
+      - MARQUEZ_DB_HOST=marquez-db
+      - MARQUEZ_DB_PORT=5432
+      - MARQUEZ_DB_NAME=marquez
+      - MARQUEZ_DB_USER=${MARQUEZ_DB_USER}
+      - MARQUEZ_DB_PASSWORD=${MARQUEZ_DB_PASSWORD}
+    ports: ["5000:5000"]
+    depends_on: [ marquez-db ]
